@@ -21,6 +21,12 @@ view: users {
     type: number
     sql: ${TABLE}.age ;;
   }
+  dimension: age_groups {
+    type: tier
+    tiers: [0, 20, 30, 40, 50, 60]
+    sql: ${TABLE}.age ;;
+    style: integer
+  }
 
   dimension: city {
     type: string
@@ -62,12 +68,19 @@ view: users {
     sql: ${TABLE}.gender ;;
   }
 
+  dimension: is_women {
+    type: yesno
+    sql: ${TABLE}.gender="F";;
+  }
+
   dimension: last_name {
     type: string
     sql: ${TABLE}.last_name ;;
   }
 
   dimension: full_name {
+    label: "Customer Name"
+    description: "Customer name information"
     type: string
     sql: ${first_name} || ' ' || ${last_name} ;;
   }
@@ -112,6 +125,14 @@ view: users {
     drill_fields: [detail*]
   }
 
+  measure: count_female_users {
+    type: count
+    filters: {
+      field: gender
+      value: "F"
+    }
+
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

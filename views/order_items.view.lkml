@@ -9,6 +9,7 @@ view: order_items {
   # You need to define a primary key in a view in order to join to other views.
 
   dimension: id {
+    hidden: yes
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
@@ -18,7 +19,7 @@ view: order_items {
 
   dimension_group: created {
     type: time
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, time, date, week, month, quarter, year,month_name,week_of_year,day_of_week]
     sql: ${TABLE}.created_at ;;
   }
 
@@ -35,6 +36,11 @@ view: order_items {
     type: number
     # hidden: yes
     sql: ${TABLE}.inventory_item_id ;;
+  }
+
+  dimension: days_since_signup {
+    type: number
+    sql: DATE_DIFF(${created_date},${shipped_date},DAY) ;;
   }
 
   dimension: order_id {
@@ -71,6 +77,20 @@ view: order_items {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: customer_status {
+    type: string
+    case: {
+      when: {
+        sql: ${TABLE}.sale_price > 1 ;;
+        label: "VIP"
+      }
+      when: {
+        sql: ${TABLE}.sale_price <= 1 ;;
+        label: "Regular"
+      }
+    }
+  }
+
   dimension: user_id {
     type: number
     # hidden: yes
@@ -81,19 +101,35 @@ view: order_items {
     drill_fields: [detail*]
   }
 
+    measure: Total_sale_price {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.sale_price ;;
+  }
+
+  measure: Total_sale_price_completed {
+    type: sum
+    filters: {
+      field: status
+      value: "Complete"
+    }
+    sql: ${TABLE}.sale_price ;;
+  }
+
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-	id,
-	users.last_name,
-	users.id,
-	users.first_name,
-	inventory_items.id,
-	inventory_items.product_name,
-	products.name,
-	products.id,
-	orders.order_id
-	]
+  id,
+  users.last_name,
+  users.id,
+  users.first_name,
+  inventory_items.id,
+  inventory_items.product_name,
+  products.name,
+  products.id,
+  orders.order_id
+  ]
   }
 
 }

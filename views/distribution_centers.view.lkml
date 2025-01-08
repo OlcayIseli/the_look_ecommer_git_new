@@ -22,6 +22,12 @@ view: distribution_centers {
     sql: ${TABLE}.distribution_center_geom ;;
   }
 
+  dimension: geo_point {
+    type: location
+    sql_latitude: ${latitude};;
+    sql_longitude: ${longitude};;
+  }
+
   dimension: latitude {
     type: number
     sql: ${TABLE}.latitude ;;
