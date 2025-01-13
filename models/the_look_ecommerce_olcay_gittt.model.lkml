@@ -26,8 +26,6 @@ persist_with: the_look_ecommerce_olcay_gittt_default_datagroup
 # Each joined view also needs to define a primary key.
 
 explore: distribution_centers {}
-explore: user_derived_table {}
-explore: users {}
 explore: derived_table {}
 explore: q1_table {}
 explore: orders1{
@@ -59,6 +57,7 @@ explore: inventory_items {
   }
 }
 
+explore: city {}
 
 
 explore: order_items {

@@ -28,6 +28,14 @@ view: users {
     style: integer
   }
 
+  dimension: age_tier {
+    type: tier
+    tiers: [18, 25, 35, 45, 55]
+    style: integer
+    sql: ${age} ;;
+  }
+
+
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
