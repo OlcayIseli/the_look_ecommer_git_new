@@ -16,4 +16,9 @@ view: q1_table {
   measure: count {
     type: count
   }
+  measure: value_percent {
+    type: sum
+    value_format: "0.00\%"
+    sql: ${TABLE}.Value ;;
+  }
 }
