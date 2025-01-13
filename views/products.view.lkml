@@ -91,7 +91,10 @@ view: products {
     type: count
     drill_fields: [detail*]
   }
-
+  measure: Total_cost {
+    type: sum
+    sql: ${TABLE}.cost ;;
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
