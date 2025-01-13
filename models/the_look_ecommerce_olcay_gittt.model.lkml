@@ -26,7 +26,10 @@ persist_with: the_look_ecommerce_olcay_gittt_default_datagroup
 # Each joined view also needs to define a primary key.
 
 explore: distribution_centers {}
+explore: user_derived_table {}
 explore: users {}
+explore: derived_table {}
+explore: q1_table {}
 explore: orders1{
   view_name: orders
 }
@@ -59,7 +62,7 @@ explore: inventory_items {
 
 
 explore: order_items {
-  group_label: "Sales Order Items"
+  label: "Order Item Tables"
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -89,11 +92,24 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
+  query: order_count {
+    dimensions: [id]
+    measures: [count]
+  }
+  query: categaory_count {
+    dimensions: [products.category]
+    measures: [products.count]
+  }
 }
 
 explore: orders {
   label: "Customer Orders"
   description: "Explore customer orders and purchase details."
+  conditionally_filter: {
+    filters: [created_date: "3 years"]
+    unless: [users.id, users.state]
+  }
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;

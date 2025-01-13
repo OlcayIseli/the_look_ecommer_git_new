@@ -18,6 +18,7 @@ view: order_items {
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
   dimension_group: created {
+    group_label: "Created Date"
     type: time
     timeframes: [raw, time, date, week, month, quarter, year,month_name,week_of_year,day_of_week]
     sql: ${TABLE}.created_at ;;
