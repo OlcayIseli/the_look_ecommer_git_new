@@ -27,6 +27,7 @@ persist_with: the_look_ecommerce_olcay_gittt_default_datagroup
 
 explore: distribution_centers {}
 explore: derived_table {}
+
 explore: q1_table {}
 explore: orders1{
   view_name: orders
@@ -42,6 +43,8 @@ explore: products {
     relationship: many_to_one
   }
 }
+
+
 
 explore: inventory_items {
   join: products {
@@ -92,14 +95,7 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  query: order_count {
-    dimensions: [id]
-    measures: [count]
-  }
-  query: categaory_count {
-    dimensions: [products.category]
-    measures: [products.count]
-  }
+
 }
 
 explore: orders {
@@ -122,4 +118,11 @@ explore: events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+}
+
+test: unique_order_id {
+  explore_source: orders {
+    column: order_id {} # Column to test
+  }
+  assert: is_unique {} # Assertion to check uniqueness
 }

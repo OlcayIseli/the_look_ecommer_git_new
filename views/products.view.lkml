@@ -20,14 +20,7 @@ view: products {
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
-    drill_fields: [category,department,count]
-    # Link 1: Search on Google
-    link: {
-      label: "Search on Google"
-      url: "http://www.google.com/search?q={{ value }}" # Dynamic URL with category
-      icon_url: "http://google.com/favicon.ico" # Google icon
-     # open_in_new_window: yes # Opens in a new tab
-    }
+
 
   }
 
@@ -55,26 +48,6 @@ view: products {
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
-    action: {
-      label: "Send customer a poke" # Text displayed for the action
-      icon_url: "http://google.com/favicon.ico" # Icon for visual context
-      url: "https://example.com/send_message" # External endpoint for the action
-
-      # Static or dynamic parameters sent via URL
-      param: {
-        name: "id" # Parameter key
-        value: "{{value}}" # Pass the dimension value dynamically
-      }
-
-      # Additional user input via form parameters
-      form_param: {
-        name: "message" # Key sent to the API
-        type: string # Input type
-        label: "Message" # Label shown to the user
-        description: "This is the message that you want to send to the customer" # Optional description
-      }
-
-    }
 
   }
 
