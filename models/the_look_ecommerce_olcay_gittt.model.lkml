@@ -27,7 +27,8 @@ persist_with: the_look_ecommerce_olcay_gittt_default_datagroup
 
 explore: distribution_centers {}
 explore: derived_table {}
-
+explore: derived_table_sample_2 {}
+explore: derived_table_native {}
 explore: q1_table {}
 explore: orders1{
   view_name: orders
@@ -95,6 +96,16 @@ explore: order_items {
     relationship: many_to_one
   }
 
+  query: order_count {
+    dimensions: [id]
+    measures: [count]
+  }
+
+  query: category_count {
+    dimensions: [products.category]
+    measures: [products.count]
+  }
+
 
 }
 
@@ -119,7 +130,6 @@ explore: events {
     relationship: many_to_one
   }
 }
-
 test: unique_order_id {
   explore_source: orders {
     column: order_id {} # Column to test
